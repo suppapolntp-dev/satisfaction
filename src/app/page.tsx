@@ -1,13 +1,6 @@
-// import Image from "next/image";
-// import styles from "./page.module.css";
-import LoginPage  from "./(auth)/login/page";
-import CustomerPage from "./(page)/customer/page";
-import DashboardPage from "./(page)/dashboard/page";
+// app/page.tsx
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <> 
-     <DashboardPage></DashboardPage>
-    </>
-  );
+  redirect("/dashboard"); 
 }

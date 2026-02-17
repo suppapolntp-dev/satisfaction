@@ -1,8 +1,8 @@
 "use client";
 
-import Tipbox from "@/app/components/tipbox";
-import { NavbarLogin } from "@/app/components/navbar";
-import { Btnlogin } from "@/app/components/buttom";
+import Tipbox from "@/app/components/Form/Tipbox";
+import { NavbarLogin } from "@/app/components/NavigationBar/Navbar";
+import { Btnlogin } from "@/app/components/UI/Button"; 
 
 const massageTipbox: string = "กรุณาติดต่อแผนก IT เพื่อขอความช่วยเหลือ 10000";
 

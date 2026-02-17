@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { SbGroupManagement } from "./sidebar";
+import { GroupSidebar } from "../NavigationBar/SideBar";
 
 //สร้าง css กำหนด popup
 const overlayStyle: React.CSSProperties = {
@@ -184,7 +184,7 @@ export function GroupManagePopup() {
           className="d-flex flex-row w-100 bg-white"
           style={{ maxHeight: "400px" }}
         >
-          <SbGroupManagement />
+          <GroupSidebar />
 
           {/* Main Content ฝั่งขวา */}
           <div className="flex-grow-1 overflow-hidden d-flex flex-column bg-white">

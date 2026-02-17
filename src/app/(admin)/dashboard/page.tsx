@@ -2,15 +2,13 @@
 "use client";
 
 import React from "react";
-import { SbDashboard } from "@/app/components/sidebar";
 import { body } from "framer-motion/client";
-import { OverallChart, SatisfactionChart } from "@/app/components/chart";
+import { OverallChart, SatisfactionChart } from "@/app/components/Statistic/chart";
 
 export default function DashboardPage() {
   return (
     <>
       <div className="d-flex min-vh-100 bg-light overflow-hidden">
-        <SbDashboard></SbDashboard>
         <main className="flex-grow-1 d-flex flex-column bg-white shadow-sm border vh-100">
           <header
             className="flex-grow-1 d-flex align-items-center justify-content-between px-4 py-4 sticky-top bg-white border-bottom"

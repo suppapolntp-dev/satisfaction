@@ -1,7 +1,7 @@
 "use client";
 const SFemoji_size = 8.0;
 import { useState,useEffect } from "react";
-import { ThankPopup } from "./popup";
+import { ThankPopup } from "../Form/Popup";
 /* -----------------------------login----------------------------- */
 export function Btnlogin() {
   return (

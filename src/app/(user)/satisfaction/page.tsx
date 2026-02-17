@@ -1,6 +1,6 @@
 "use client";
-import { NavbarMain } from "@/app/components/navbar";
-import { BtnSatisfaction, BtnSubmit } from "@/app/components/buttom";
+import { NavbarMain } from "@/app/components/NavigationBar/Navbar";
+import { BtnSatisfaction, BtnSubmit } from "@/app/components/UI/Button";
 
 export default function CustomerPage() {
   return (
