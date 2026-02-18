@@ -33,7 +33,6 @@ export default function UserManagerPage() {
               subtitle="Manage your team"
               icon="bi-people"
             >
-              {/* 3. เรียกใช้งาน Table */}
               <TableContainer>
                 <TableHeader columns={userColumns} />
                 <TableBody isEmpty={true} colSpan={userColumns.length} />

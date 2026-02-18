@@ -47,7 +47,6 @@ export function UserForm() {
 export function GroupForm() {
   return (
     <div className="bg-white rounded-4 p-4 border shadow-sm">
-      {/* Header ส่วนสร้าง Group */}
       <div className="d-flex align-items-center gap-3 mb-4">
         <div className="bg-success bg-opacity-10 d-flex align-items-center justify-content-center rounded-3"
              style={{ width: "48px", height: "48px", color: "#10b981" }}>
@@ -59,9 +58,7 @@ export function GroupForm() {
         </div>
       </div>
 
-      {/* Input Rows สำหรับ Group */}
       <div className="row g-3">
-        {/* ชื่อกลุ่มใช้ขนาด 4 ส่วน (col-md-4) */}
         <InputField 
           label="Group Name" 
           placeholder="e.g. Operation, Manager" 

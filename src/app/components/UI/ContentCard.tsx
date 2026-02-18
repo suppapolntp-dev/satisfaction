@@ -16,7 +16,7 @@ export const ContentCard = ({
   actions 
 }: ContentCardProps) => {
   return (
-    <div className="bg-white rounded-4 p-4 d-flex flex-column border-0 shadow-sm mb-4">
+    <div className="bg-white rounded-4 p-4 d-flex flex-column border shadow-sm mb-4">
       
       <div className="d-flex align-items-center gap-3 mb-4">
         <div 
