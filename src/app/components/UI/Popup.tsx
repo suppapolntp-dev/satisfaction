@@ -29,10 +29,23 @@ const modalBoxStyle: React.CSSProperties = {
   animation: "popIn 1.0s cubic-bezier(0.34, 1.56, 0.64, 1)",
 };
 
-export function ThankPopup({ onClick }: { onClick: () => void }) {
+import { useEffect } from "react";
+
+export function ThankPopup({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    // ตั้งเวลา 3 วินาที (3000ms) แล้วให้รันฟังก์ชันปิด
+    const timer = setTimeout(() => {
+      onClose();
+    }, 3000);
+
+    // Cleanup function เพื่อป้องกัน Memory Leak หรือ Timer ทำงานซ้อนกัน
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
   return (
-    <div style={overlayStyle} onClick={onClick}>
-      <div style={modalBoxStyle} onClick={(e) => e.stopPropagation()}>
+    // ถอด onClick ออกจาก overlay เพื่อไม่ให้กดปิดได้เอง
+    <div style={overlayStyle}> 
+      <div style={modalBoxStyle}>
         <div className="mb-4">
           <span
             className="material-symbols-outlined"
@@ -41,7 +54,6 @@ export function ThankPopup({ onClick }: { onClick: () => void }) {
             check_circle
           </span>
         </div>
-
         <h2 className="fw-black">Thank you!</h2>
         <p className="text-secondary">Your input helps us improve.</p>
       </div>

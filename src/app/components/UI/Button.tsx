@@ -1,7 +1,7 @@
 "use client";
 const SFemoji_size = 8.0;
 import { useState,useEffect } from "react";
-import { ThankPopup } from "../Form/Popup";
+import { ThankPopup } from "./Popup";
 /* -----------------------------login----------------------------- */
 export function Btnlogin() {
   return (
@@ -27,26 +27,34 @@ export function Btnlogin() {
 export function BtnSatisfaction() {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false); 
 
   const FeedbackClick = (e: React.MouseEvent, value: string) => {
-    (e.currentTarget as HTMLElement).blur();
-    setSelected(value); // เริ่มโชว์สี
+    if (isProcessing) return; // ถ้ากำลังทำงานอยู่ ไม่ให้ทำซ้ำ
 
-    // 1. หน่วงเวลา 1 วิก่อนเปิด Popup
+    setIsProcessing(true); // เริ่ม Lock ทันที
+    (e.currentTarget as HTMLElement).blur();
+    setSelected(value);
+
     setTimeout(() => {
       setIsOpen(true);
-      setSelected(null); // ล้างสีปุ่มเมื่อ Popup ขึ้น
+      setSelected(null);
 
-      // 2. ตั้งเวลาให้ Popup หายไปเอง (เช่น 2 วินาทีหลังจากปรากฏ)
       setTimeout(() => {
         setIsOpen(false);
-      }, 2000); 
-    }, 1000);
+        setIsProcessing(false); // ปลด Lock เมื่อ Popup หายไปแล้ว
+      }, 3500); 
+    }, 1500);
   };
 
   return (
     <>
-      <div className="row g-3 g-md-4 g-lg-5 w-100 px-2 mb-5 justify-content-center">
+      <div 
+        className="row g-3 g-md-4 g-lg-5 w-100 px-2 mb-5 justify-content-center"
+        style={{ 
+          pointerEvents: isProcessing ? "none" : "auto", 
+        }}
+      >
         {["sad", "neutral", "happy"].map((type) => (
           <div className="col-4" key={type}>
             <label className="sentiment-option w-100">
@@ -66,9 +74,7 @@ export function BtnSatisfaction() {
           </div>
         ))}
       </div>
-      
-      {/* Popup จะหายไปเองตาม Logic ด้านบน */}
-      {isOpen && <ThankPopup onClick={() => setIsOpen(false)} />}
+      {isOpen && <ThankPopup onClose={() => {}} />}
     </>
   );
 }

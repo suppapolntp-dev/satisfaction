@@ -1,0 +1,25 @@
+Group A: Blueprint (พิมพ์เขียว)
+UX/UI Design: หน้าตาเว็บที่ออกแบบไว้ (Figma/Layout)
+Flowchart & Workflow: ลอจิกการทำงานและเส้นทางการใช้งานของผู้ใช้
+Data Dictionary & ER Diagram: พิมพ์เขียวฐานข้อมูลและการอธิบายข้อมูลแต่ละ Field
+
+Group B: Tech Stack (เครื่องมือที่ใช้พัฒนา)
+Next.js (App Router): Framework หลักในการสร้างเว็บ
+React: Library สำหรับสร้าง UI (กำลังจะแยกเป็น Component)
+TypeScript: ภาษาหลักที่ใช้คุมเข้มเรื่อง Type ของโค้ด
+Bootstrap: UI Framework สำหรับจัด Layout หน้าเว็บ
+Postman: เครื่องมือสำหรับทดสอบ API
+Docker: ตัวจัดการ Container เพื่อให้รันระบบได้ทุกที่เหมือนกันเป๊ะ
+
+Group C: Data & Connection (ข้อมูลและการเชื่อมต่อ)
+MySQL: ระบบฐานข้อมูลหลัก
+Dockerize MySQL: การรัน MySQL ผ่าน Docker (แทนการใช้ XAMPP แบบเดิม)
+Drizzle ORM: ตัวเชื่อมและจัดการคำสั่ง Database ด้วย TypeScript
+Drizzle Studio: หน้า UI สำหรับจัดการข้อมูลใน DB (npx drizzle-kit studio)
+REST API (Next.js): ช่องทางการรับส่งข้อมูลระหว่างหน้าบ้านและหลังบ้าน
+
+Group D: Security & Integrity (ความปลอดภัยและคุณภาพ)
+NextAuth.js: ระบบจัดการ Login และ Session ของ User/Admin
+Middleware: ตัวกรองเพื่อกันไม่ให้ User ทั่วไปเข้าถึงหน้า Admin/Management
+Zod: ตัวตรวจสอบความถูกต้องของข้อมูล (Data Validation) ก่อนบันทึกลง DB (เช่น กันคนยิง API ผิดประเภท)
+Environment Variables (.env): การเก็บค่าความลับต่างๆ เช่น Database URL และ Auth Secret
