@@ -1,14 +1,11 @@
+// src/app/api/satisfactions/route.ts
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
-import { satisfaction, account } from '@/db/schema';
+import { satisfaction } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function GET() {
   try {
-    /**
-     * ดึงข้อมูลทั้งหมด
-     * SQL: SELECT * FROM Satisfaction
-     */
     const results = await db.select().from(satisfaction);
 
     return NextResponse.json({ 
@@ -18,7 +15,7 @@ export async function GET() {
     });
 
   } catch (error: unknown) {
-    console.error('GET /api/satisfaction error:', error);
+    console.error('GET /api/satisfactions error:', error);
     return NextResponse.json(
       { 
         success: false, 
@@ -29,89 +26,41 @@ export async function GET() {
     );
   }
 }
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    /**
-     * ตรวจสอบข้อมูลที่จำเป็น
-     */
-    if (!body.satisfactionId || !body.userId) {
+    // ตรวจ userId
+    if (!body.userId) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'satisfactionId and userId are required' 
-        },
+        { success: false, error: 'userId is required' },
         { status: 400 }
       );
     }
 
-    if (body.satisfactionName) {
-      const validNames = ['ดี', 'ปานกลาง', 'แย่'];
-      if (!validNames.includes(body.satisfactionName)) {
-        return NextResponse.json(
-          { 
-            success: false, 
-            error: `satisfactionName must be one of: ${validNames.join(', ')}` 
-          },
-          { status: 400 }
-        );
-      }
-    }
-
-    const userExists = await db
-      .select()
-      .from(account)
-      .where(eq(account.userId, body.userId));
-
-    if (userExists.length === 0) {
+    // ตรวจ satisfactionName
+    const validNames = ['ดี', 'ปานกลาง', 'แย่'];
+    if (!body.satisfactionName || !validNames.includes(body.satisfactionName)) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: `User with ID ${body.userId} does not exist` 
-        },
-        { status: 404 }
+        { success: false, error: `satisfactionName must be one of: ${validNames.join(', ')}` },
+        { status: 400 }
       );
     }
 
-    const result = await db.insert(satisfaction).values({
-      satisfactionId: body.satisfactionId,
-      satisfactionName: body.satisfactionName || null,
+    // insert โดยไม่ต้องส่ง satisfactionId เพราะ autoincrement
+    await db.insert(satisfaction).values({
+      satisfactionName: body.satisfactionName,
       userId: body.userId,
     });
 
-    const newRecord = await db
-      .select()
-      .from(satisfaction)
-      .where(eq(satisfaction.satisfactionId, body.satisfactionId));
-
     return NextResponse.json(
-      { 
-        success: true, 
-        message: 'Satisfaction record created successfully',
-        data: newRecord[0]
-      },
+      { success: true, message: 'Satisfaction record created successfully' },
       { status: 201 }
     );
 
   } catch (error: unknown) {
-    console.error('POST /api/satisfaction error:', error);
-
-    if (
-      typeof error === 'object' &&
-      error !== null &&
-      'code' in error &&
-      (error as { code: string }).code === 'ER_DUP_ENTRY'
-    ) {
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Satisfaction ID already exists' 
-        },
-        { status: 409 }
-      );
-    }
-
+    console.error('POST /api/satisfactions error:', error);
     return NextResponse.json(
       { 
         success: false, 
@@ -135,10 +84,7 @@ export async function DELETE(request: Request) {
 
     if (!satisfactionId) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'satisfactionId is required' 
-        },
+        { success: false, error: 'satisfactionId is required' },
         { status: 400 }
       );
     }
@@ -154,7 +100,7 @@ export async function DELETE(request: Request) {
     });
 
   } catch (error: unknown) {
-    console.error('DELETE /api/satisfaction error:', error);
+    console.error('DELETE /api/satisfactions error:', error);
     return NextResponse.json(
       { 
         success: false, 

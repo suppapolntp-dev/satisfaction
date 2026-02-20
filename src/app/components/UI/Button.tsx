@@ -1,59 +1,93 @@
 "use client";
-const SFemoji_size = 8.0;
-import { useState,useEffect } from "react";
+import { useState} from "react";
 import { ThankPopup } from "./Popup";
+import { useSession } from "next-auth/react";
 /* -----------------------------login----------------------------- */
-export function Btnlogin() {
+export function Btnlogin({ loading = false }: { loading?: boolean }) {
   return (
-    <>
-      <button
-        className="btn w-100 mt-2 d-flex align-items-center justify-content-center"
-        style={{
-          background: "linear-gradient(135deg, #ff4d5a 0%, #dc3545 100%)",
-          color: "white",
-          height: "55px",
-          fontWeight: "bold",
-          borderRadius: "0.75rem",
-        }}
-      >
-        <span className="me-2">Login</span>
-        <span className="material-symbols-outlined fw-bold">arrow_forward</span>
-      </button>
-    </>
+    <button
+      type="submit"
+      disabled={loading}
+      className="btn w-100 mt-2 d-flex align-items-center justify-content-center"
+      style={{
+        background: loading
+          ? "#adb5bd"
+          : "linear-gradient(135deg, #ff4d5a 0%, #dc3545 100%)",
+        color: "white",
+        height: "55px",
+        fontWeight: "bold",
+        borderRadius: "0.75rem",
+        transition: "all 0.3s ease",
+      }}
+    >
+      {loading ? (
+        <>
+          <span className="spinner-border spinner-border-sm me-2" />
+          <span>กำลังเข้าสู่ระบบ...</span>
+        </>
+      ) : (
+        <>
+          <span className="me-2">Login</span>
+          <span className="material-symbols-outlined fw-bold">arrow_forward</span>
+        </>
+      )}
+    </button>
   );
 }
 
+
+
 /* -----------------------------customer----------------------------- */
+
+
+const SATISFACTION_MAP: Record<string, string> = {
+  sad: "แย่",
+  neutral: "ปานกลาง",
+  happy: "ดี",
+};
+
 export function BtnSatisfaction() {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false); 
+  const [isProcessing, setIsProcessing] = useState(false);
+  const { data: session } = useSession(); // ← ดึง session
 
-  const FeedbackClick = (e: React.MouseEvent, value: string) => {
-    if (isProcessing) return; // ถ้ากำลังทำงานอยู่ ไม่ให้ทำซ้ำ
+  const FeedbackClick = async (e: React.MouseEvent, value: string) => {
+    if (isProcessing) return;
 
-    setIsProcessing(true); // เริ่ม Lock ทันที
+    setIsProcessing(true);
     (e.currentTarget as HTMLElement).blur();
     setSelected(value);
+
+    // ─── ส่งไป API ───
+    try {
+      await fetch("/api/satisfactions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          satisfactionName: SATISFACTION_MAP[value],
+          userId: Number(session?.user?.id),
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to save:", err);
+    }
 
     setTimeout(() => {
       setIsOpen(true);
       setSelected(null);
-
       setTimeout(() => {
         setIsOpen(false);
-        setIsProcessing(false); // ปลด Lock เมื่อ Popup หายไปแล้ว
-      }, 3500); 
+        setIsProcessing(false);
+      }, 3500);
     }, 1500);
   };
 
   return (
     <>
-      <div 
+      <div
         className="row g-3 g-md-4 g-lg-5 w-100 px-2 mb-5 justify-content-center"
-        style={{ 
-          pointerEvents: isProcessing ? "none" : "auto", 
-        }}
+        style={{ pointerEvents: isProcessing ? "none" : "auto" }}
       >
         {["sad", "neutral", "happy"].map((type) => (
           <div className="col-4" key={type}>
@@ -64,7 +98,7 @@ export function BtnSatisfaction() {
                 style={{
                   "--sentiment-color": type === "sad" ? "#dc3545" : type === "neutral" ? "#ffc107" : "#10b981",
                   "--sentiment-hover-bg": type === "sad" ? "#fff5f5" : type === "neutral" ? "#fffdf0" : "#f0fdf4",
-                } as React.CSSProperties }
+                } as React.CSSProperties}
               >
                 <span className="material-symbols-outlined icon-display" style={{ fontSize: "4rem", pointerEvents: "none" }}>
                   {type === "sad" ? "sentiment_dissatisfied" : type === "neutral" ? "sentiment_neutral" : "sentiment_satisfied"}

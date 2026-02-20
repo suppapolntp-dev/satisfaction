@@ -1,7 +1,7 @@
 import { mysqlTable, int, varchar, text, timestamp } from 'drizzle-orm/mysql-core';
 
 export const brand = mysqlTable('Brand', {
-  brandId: int('brand_id').primaryKey(),
+  brandId: int('brand_id').primaryKey().autoincrement(), 
   brandName: varchar('brand_name', { length: 255 }).notNull(),
   brandShortName: varchar('brand_short_name', { length: 10 }),
   brandImage: varchar('brand_image', { length: 255 }),
@@ -26,8 +26,8 @@ export const account = mysqlTable('account', {
 });
 
 export const satisfaction = mysqlTable('Satisfaction', {
-  satisfactionId: int('satisfaction_id').primaryKey(),
+  satisfactionId: int('satisfaction_id').primaryKey().autoincrement(), 
   satisfactionName: varchar('satisfaction_name', { length: 25 }),
   userId: int('user_id'),
-  createdAt: timestamp('created_at'),
+  createdAt: timestamp('created_at').defaultNow(),
 });

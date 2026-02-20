@@ -33,17 +33,14 @@ import { useEffect } from "react";
 
 export function ThankPopup({ onClose }: { onClose: () => void }) {
   useEffect(() => {
-    // ตั้งเวลา 3 วินาที (3000ms) แล้วให้รันฟังก์ชันปิด
     const timer = setTimeout(() => {
       onClose();
     }, 3000);
 
-    // Cleanup function เพื่อป้องกัน Memory Leak หรือ Timer ทำงานซ้อนกัน
     return () => clearTimeout(timer);
   }, [onClose]);
 
   return (
-    // ถอด onClick ออกจาก overlay เพื่อไม่ให้กดปิดได้เอง
     <div style={overlayStyle}> 
       <div style={modalBoxStyle}>
         <div className="mb-4">

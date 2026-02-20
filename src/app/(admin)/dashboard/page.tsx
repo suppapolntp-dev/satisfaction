@@ -159,7 +159,7 @@ export default function DashboardPage() {
                         className="fw-bold mb-0"
                         style={{ fontSize: "2.25rem" }}
                       >
-                        1,284 รอลงโปรแกรม
+                        1,284 
                       </h2>
                     </div>
                   </div>
