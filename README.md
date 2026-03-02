@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+src/
+├── app/
+│   ├── (admin)/        หน้า admin ทั้งหมด (dashboard, manager ต่างๆ)
+│   ├── (auth)/login    หน้า Login
+│   ├── (user)/         หน้า iPad satisfaction
+│   ├── api/            API ทุกตัวอยู่ที่นี่
+│   └── components/     UI ที่ใช้ซ้ำ (sidebar, modal, กราฟ)
+│
+├── auth.ts             ระบบ Login, JWT, เก็บ permission ลง session
+├── middleware.ts       ดักทุก request เช็ค login และสิทธิ์ก่อนเข้าหน้า
+├── proxy.ts            กำหนดว่า route ไหน ต้องใช้ permission อะไร
+├── db/
+│   ├── schema.ts       โครงสร้างทุก Table (Brand, Branch, Role, Account...)
+│   └── index.ts        เชื่อมต่อ Database
+├── hooks/
+│   └── useCrudManager.ts   Logic เพิ่ม/แก้/ลบ กลาง ที่ทุกหน้า Manager ใช้ร่วมกัน
+└── types/
+    └── models.ts       Type ทั้งหมด เช่น Brand, Branch, ApiResponse, Permission
 
-## Getting Started
+ต้องการ แก้ไปที่
+API ดึงข้อมูล / บันทึกข้อมูล			src/app/api/[ชื่อ]/route.ts
+หน้า Dashboard / Filter 			src/app/(admin)/dashboard/page.tsx
+หน้า Login			src/app/(auth)/login/page.tsx
+หน้ากด Satisfaction (iPad)	src/app/(user)/satisfaction/page.tsx
+ระบบ Login / สิทธิ์ใน JWT 			src/auth.ts
+กันคนเข้าหน้าที่ไม่มีสิทธิ์				src/middleware.ts
+โครงสร้าง Database			src/db/schema.ts
+Sidebar / เมนู					src/app/components/Sidebar/AdminSidebar.tsxModal / 
+Popup				src/app/components/UI/AdminModal.tsx
+กราฟสถิติ							src/app/components/Statistic/chart.tsx
 
-First, run the development server:
+🛠️ Tech Stack
+Frontend
+Next.js 16 — Framework หลัก (App Router)
+React 19 — UI Library
+TypeScript — ภาษาหลัก (คุม Type เข้มงวด)
+Bootstrap 5 — จัด Layout / Style
+Bootstrap Icons — ไอคอน (bi-*)
+Recharts — กราฟสถิติใน Dashboard
+Framer Motion — Animation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Backend / Database
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Drizzle ORM — จัดการ Database ด้วย TypeScript
+MySQL — ฐานข้อมูลหลัก
+Docker — รัน MySQL ผ่าน Container
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Auth / Security
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+NextAuth.js v5 — ระบบ Login, Session, JWT
+bcrypt — เข้ารหัส Password
+Zod — Validate ข้อมูลก่อนบันทึก DB
+Middleware — Route Guard เช็คสิทธิ์
 
-## Learn More
+Dev Tools
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Drizzle Studio — GUI ดูข้อมูลใน DB (npm run db:studio)
+Drizzle Kit — Generate / Migrate schema
