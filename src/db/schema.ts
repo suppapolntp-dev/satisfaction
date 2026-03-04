@@ -53,12 +53,6 @@ export const account = mysqlTable('Account', {
   areaId:       int('area_id'),
 });
 
-export const userBranch = mysqlTable('UserBranch', {
-  id:       int('id').primaryKey().autoincrement(),
-  userId:   int('user_id').notNull(),
-  branchId: int('branch_id').notNull(),
-});
-
 export const userBrand = mysqlTable('UserBrand', {
   id:      int('id').primaryKey().autoincrement(),
   userId:  int('user_id').notNull(),
